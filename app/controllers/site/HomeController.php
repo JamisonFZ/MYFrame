@@ -8,4 +8,9 @@ class HomeController
     {
         echo 'index';
     }
+
+    public function show($request)
+    {
+        dd($request);
+    }
 }

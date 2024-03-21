@@ -77,7 +77,7 @@ class Controller
      */
     private function controllerHome(): object
     {
-        if (!$this->controllerExist('HomeController')) {
+        if (! $this->controllerExist('HomeController')) {
             throw new ControllerNotExistException('Esse controller não existe');
         }
 
@@ -104,7 +104,7 @@ class Controller
     {
         $controller = $this->getControllerNotHome();
 
-        if (!$this->controllerExist($controller)) {
+        if (! $this->controllerExist($controller)) {
             throw new ControllerNotExistException('Esse controller não existe');
         }
 
