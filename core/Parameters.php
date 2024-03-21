@@ -8,8 +8,8 @@ class Parameters
     private $uri;
 
     /**
-     *  PT-BR # 
-     *  EN #
+     *  PT-BR # Pega a uri da requisição
+     *  EN # Get the uri of the request
      */
     public function __construct()
     {
@@ -45,7 +45,12 @@ class Parameters
         return null;
     }
 
-    private function getNextParameter($actual)
+    /**
+     *  PT-BR # Verifica se o segundo parâmetro foi enviado
+     *  EN # Checks if the second parameter was sent
+     *  @return string Retorna uma string com o paramentro enviado
+     */
+    private function getNextParameter($actual): string
     {
         $parameter = array_values(array_filter(explode('/', $this->uri)));
 
