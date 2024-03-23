@@ -2,15 +2,47 @@
 
 namespace app\controllers\site;
 
-class HomeController
+use app\controllers\ContainerController;
+
+class HomeController extends ContainerController
 {
+
     public function index()
     {
-        echo 'index';
+        $this->view([
+            'home' => 'Meu projeto',
+            'description' => 'descrição do projeto'
+        ], 'site.home');
     }
 
-    public function show($request)
+    public function show()
     {
-        dd($request);
+
     }
+
+    public function edit()
+    {
+
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function create()
+    {
+
+    }
+
+    public function store()
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
+
 }
