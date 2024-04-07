@@ -2,4 +2,6 @@
 
 namespace app\exceptions;
 
-class MethodNotExistException extends \Exception {}
+use Exception;
+
+class MethodNotExistException extends Exception {}

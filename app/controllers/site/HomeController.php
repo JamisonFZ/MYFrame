@@ -3,16 +3,14 @@
 namespace app\controllers\site;
 
 use app\controllers\ContainerController;
+use app\models\user\User;
 
 class HomeController extends ContainerController
 {
 
     public function index()
     {
-        $this->view([
-            'home' => 'Meu projeto',
-            'description' => 'descrição do projeto'
-        ], 'site.home');
+
     }
 
     public function show()
