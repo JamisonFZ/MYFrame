@@ -21,3 +21,27 @@ define("CONF_DB_OPTS", [
  * PT-BR # E-mail.
  * EN # Email.
  */
+
+ /**
+ * PT-BR # URls.
+ * EN # URls.
+ */
+
+ define("CONF_URL_BASE", "localhost");
+ define("CONF_URL_ADMIN", CONF_URL_BASE . "/admin");
+ define("CONF_URL_ERROR", CONF_URL_BASE . "/404");
+
+ /**
+ * PT-BR # Datas.
+ * EN # Dates.
+ */
+
+ define("CONF_DATE_BR", "d/m/Y H:i:s");
+ define("CONF_DATE_APP", "Y-m-d H:i:s");
+
+ /**
+ * PT-BR # Sessões.
+ * EN # Sessions.
+ */
+
+ define("CONF_SES_PATH", __DIR__ . "/storage/sessions/");
