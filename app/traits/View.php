@@ -7,9 +7,11 @@ use core\Twig;
 trait View
 {
     /**
-     *  @return object Retorna o objeto twig 
+     *  PT-BR # Instancia um novo objeto twig e carrega suas funções se houver.
+     *  EN # Instantiates a new twig object and loads its functions if any.
+     *  @return object
      */
-    private function twig()
+    private function twig(): object
     {
         $twig = new Twig;
 
@@ -21,6 +23,8 @@ trait View
     }
 
     /**
+     *  PT-BR # Método para receber o array com dados e qual view exibir.
+     *  EN # Method to receive the array with data and which view to display.
      *  @return mixed
      */
     public function view($data, $view): mixed

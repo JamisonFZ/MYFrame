@@ -1,2 +1,11 @@
 
 Copyright (c) // EM BREVE
+
+## Back end
+- PHP MVC - OO
+- Email: PHP Mailer
+- DD: Symfony var-dumper
+
+## Front end
+- Twig
+- CDN Flowbite

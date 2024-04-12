@@ -21,7 +21,7 @@ class Method
     /**
      *  PT-BR # Verifica se o método existe
      *  EN # Checks if the method exists
-     *  @return string Retorna uma string com o método se existir
+     *  @return string
      */
     public function load($controller): string
     {
@@ -37,7 +37,7 @@ class Method
     /**
      *  PT-BR # Verifica se a uri do método foi passada
      *  EN # Checks if the method uri was passed
-     *  @return string Retorna uma string com o método.
+     *  @return string
      */
     private function getMethod(): string
     {

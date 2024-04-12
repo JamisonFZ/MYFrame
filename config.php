@@ -45,3 +45,14 @@ define("CONF_DB_OPTS", [
  */
 
  define("CONF_SES_PATH", __DIR__ . "/storage/sessions/");
+
+ /**
+ * PT-BR # Mensagem.
+ * EN # Message.
+ */
+
+ define("CONF_MESSAGE_CLASS", "trigger");
+ define("CONF_MESSAGE_SUCCESS", "success");
+ define("CONF_MESSAGE_INFO", "info");
+ define("CONF_MESSAGE_WARNING", "warning");
+ define("CONF_MESSAGE_ERROR", "error");

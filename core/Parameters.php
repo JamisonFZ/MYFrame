@@ -19,7 +19,7 @@ class Parameters
     /**
      *  PT-BR # Carrega a função getParameter ao ser executada
      *  EN # Loads the getParameter function when executed
-     *  @return null|object Retorno vazio ou um objeto
+     *  @return null|object
      */
     public function load()
     {
@@ -29,7 +29,7 @@ class Parameters
     /**
      *  PT-BR #  Verifica se o parâmetro foi enviado
      *  EN # Checks if the parameter was sent
-     *  @return null|object Retorna vazio ou um objeto com base na verificação
+     *  @return null|object
      */
     private function getParameter(): null|object
     {
@@ -48,7 +48,7 @@ class Parameters
     /**
      *  PT-BR # Verifica se o segundo parâmetro foi enviado
      *  EN # Checks if the second parameter was sent
-     *  @return string Retorna uma string com o paramentro enviado
+     *  @return string
      */
     private function getNextParameter($actual): string
     {

@@ -12,7 +12,7 @@ class Twig
     /**
      * PT-BR # Instância um novo objeto com as configurações de ambiente do twig.
      * EN # Instantiate a new object with twig environment settings.
-     * @return object Retorno do objeto
+     * @return object
      */
     public function loadTwig(): object
     {
@@ -26,7 +26,7 @@ class Twig
     /**
      *  PT-BR # Instância um novo objeto com o caminho para pasta views.
      *  EN # Instance a new object with the path to views folder.
-     *  @return object Retorna um objeto
+     *  @return object
      */
     private function loadViews(): object
     {
@@ -36,9 +36,9 @@ class Twig
     /**
      *  PT-BR # Instância uma nova função para o twig.
      *  EN # Instantiate a new function for twig.
-     *  @param string $functionName Nome para a função
-     *  @param Closure $callback Função de callback
-     *  @return object Retorna um objeto instânciado
+     *  @param string $functionName
+     *  @param Closure $callback
+     *  @return object
      */
     private function functionsToView(string $functionName, Closure $callback)
     {
@@ -48,7 +48,7 @@ class Twig
     /**
      *  PT-BR # Carrega todas as funções para o twig através de array.
      *  EN # Load all functions into twig through array.
-     *  @return void Sem retorno
+     *  @return void
      */
     public function loadFunctions(): void
     {

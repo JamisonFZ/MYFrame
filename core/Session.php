@@ -55,7 +55,7 @@ class Session
     /**
      * PT-BR # Devolve toda a sessão.
      * EN # Returns the entire session.
-     * @return object|null Retorna a sessão ou nulo
+     * @return object|null
      */
     public function all(): object|null
     {
@@ -67,7 +67,7 @@ class Session
      * EN # Arrow attributes for the session.
      * @param string $key
      * @param mixed $value
-     * @return Session Retorna a sessão
+     * @return Session
      */
     public function set(string $key, $value): Session
     {
@@ -79,7 +79,7 @@ class Session
      * PT-BR # Remove atributos da sessão.
      * EN # Remove session attributes.
      * @param string $key
-     * @return Session Retorna a sessão
+     * @return Session
      */
     public function unset(string $key): Session
     {
@@ -90,7 +90,7 @@ class Session
     /**
      * PT-BR # Verifica se a sessão já existe.
      * EN # Checks if the session already exists.
-     * @return bool Retorna um booleano
+     * @return bool
      */
     public function has(string $key): bool
     {
@@ -100,7 +100,7 @@ class Session
     /**
      * PT-BR # Gera um novo id de sessão.
      * EN # Generates a new session id.
-     * @return Session Retorna a sessão
+     * @return Session
      */
     public function regenerate(): Session
     {
@@ -111,7 +111,7 @@ class Session
     /**
      * PT-BR # Destroi a sessão.
      * EN # Destroy the session.
-     * @return Session Retorna a sessão
+     * @return Session
      */
     public function destroy(): Session
     {   

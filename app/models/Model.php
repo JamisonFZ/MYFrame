@@ -152,7 +152,7 @@ abstract class Model
      *  @param int $id
      *  @param array $data
      *  @param array $params
-     *  @return int|null Retorna um número inteiro ou nulo
+     *  @return int|null
      */
     protected function update(string $entity, int $id, array $data, array $params): int|null
     {
@@ -210,7 +210,7 @@ abstract class Model
     /**
      *  PT-BR # Dados que não podem ser alterados.
      *  EN # Data that cannot be changed.
-     *  @return array|null Retorna um array ou um nulo
+     *  @return array|null
      */
     public function safe(): array|null
     {
@@ -226,7 +226,7 @@ abstract class Model
      *  PT-BR # Filtro para recebimento de dados externos.
      *  EN # Filter for receiving external data.
      *  @param array $data
-     *  @return array|null Retorna um array ou um nulo
+     *  @return array|null
      */
     private function filter(array $data): array|null
     {

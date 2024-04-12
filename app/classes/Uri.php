@@ -3,7 +3,8 @@
 namespace app\classes;
 
 /**
- * Pegando URI
+ *  Classe Uri
+ *  @package app\classes
  */
 class Uri
 {

@@ -20,7 +20,7 @@ class User extends Model
      *  @param string $lastName
      *  @param string $email
      *  @param string $document
-     *  @return User|null Retorna um objeto user ou nulo
+     *  @return User|null
      */
     public function bootstrap(string $firstName, string $lastName, string $email, string $document): User|null
     {  
@@ -36,7 +36,7 @@ class User extends Model
      *  EN # Database search with the id parameter with or without specific columns.
      *  @param int $id
      *  @param string $columns
-     *  @return null|User Retorna um objeto do tipo user com a consulta ou retorna um nulo 
+     *  @return null|User
      */
     public function load(int $id, string $columns = '*'): User|null
     {
@@ -57,7 +57,7 @@ class User extends Model
      *  EN # Search in the database with the email parameter with or without specific columns.
      *  @param string $email
      *  @param string $columns
-     *  @return null|User Retorna um objeto do tipo user com a consulta ou retorna um nulo
+     *  @return null|User
      */
     public function find(string $email, string $columns = '*'): User|null
     {
@@ -78,7 +78,7 @@ class User extends Model
      *  @param int $limit
      *  @param int $offset
      *  @param string $columns
-     *  @return null|array Retorna um array com a consulta ou um nulo caso não encontra nada
+     *  @return null|array
      */
     public function all(int $limit = 30, int $offset = 0, string $columns = '*'): array|null
     {
@@ -98,7 +98,7 @@ class User extends Model
      *  EN # Modify a user in the database.
      *  @param array $params
      *  @param string $email
-     *  @return User|null Retornar um objeto do usuáriou ou nulo
+     *  @return User|null
      */
     public function modify(string $email, array $params): User|null
     {
@@ -118,7 +118,7 @@ class User extends Model
     /**
      *  PT-BR # Tenta cadastrar um novo usuário na base de dados.
      *  EN # Try to register a new user in the database.
-     *  @return User|null Retorna um valor nulo ou o objeto
+     *  @return User|null
      */
     public function save(): User|null
     {
@@ -154,7 +154,7 @@ class User extends Model
     /**
      *  PT-BR # Com base no id, deleta o usuário na base de dados.
      *  EN # Based on the id, delete the user from the database.
-     *  @return User|null Retorna um resultado nulo ou o objeto
+     *  @return User|null
      */
     public function destroy(): User|null
     {
@@ -175,7 +175,7 @@ class User extends Model
     /**
      *  PT-BR # Verifica campos obrigatórios e valida o e-mail.
      *  EN # Checks mandatory fields and validates the email.
-     *  @return bool Retorna um true ou false para a validação
+     *  @return bool
      */
     public function required(): bool
     {

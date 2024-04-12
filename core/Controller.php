@@ -27,7 +27,7 @@ class Controller
     /**
      *  PT-BR # Carrega o controlador com base na uri.
      *  EN # Loads the controller based on the uri.
-     *  @return object Retorna o objeto já instânciado.
+     *  @return object
      */
     public function load(): object
     {
@@ -41,7 +41,7 @@ class Controller
     /**
      *  PT-BR # Verifica se a uri retornou uma barra ou algo a mais.
      *  EN # Checks if the uri returned a slash or something else.
-     *  @return bool Retorna verdadeiro ou falso para verificação.
+     *  @return bool
      */
     private function isHome(): bool
     {
@@ -51,8 +51,8 @@ class Controller
     /**
      * PT-BR # Verifica se o controlador existe e retorna um booleano.
      * EN # Checks if the controller exists and returns a boolean.
-     * @param string $controllerName Nome do controlador para ser verificado.
-     * @return bool Retorna verdadeiro ou falso para verificação.
+     * @param string $controllerName
+     * @return bool
      */
     private function controllerExist(string $controllerName): bool
     {
@@ -73,7 +73,7 @@ class Controller
     /**
      *  PT-BR # Verifica a uri para retornar o controlador correspondente.
      *  EN # Checks the uri to return the corresponding controller.
-     *  @return object Objeto instânciado é devolvido.
+     *  @return object
      */
     private function controllerHome(): object
     {
@@ -87,7 +87,7 @@ class Controller
     /**
      *  PT-BR # Instância um novo controlador.
      *  EN # Instance a new controller.
-     *  @return object Objeto instânciado é devolvido.
+     *  @return object
      */
     private function instantiateController(): object
     {
@@ -98,7 +98,7 @@ class Controller
     /**
      *  PT-BR # Instancia controladores que não for o home.
      *  EN # Instantiate controllers other than home.
-     *  @return object Retorna um objeto instânciado.
+     *  @return object
      */
     private function controllerNotHome(): object
     {
