@@ -118,4 +118,21 @@ class Session
         session_destroy();
         return $this;
     }
+
+
+    /**
+     * PT-BR # Monitora as mensagens do tipo flash da classe message.
+     * EN # Monitors flash messages from the message class.
+     * @return Session|null
+     */
+    public function flash(): Session|null
+    {
+        if($this->has('flash')) {
+            $flash = $this->flash;
+            $this->unset('flash');
+            return $flash;
+        }
+
+        return null;
+    }
 }

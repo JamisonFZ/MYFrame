@@ -35,18 +35,6 @@ class Message
     /**
      *  PT-BR # Mensagem de sucesso.
      *  EN # Success Message.
-     *  @return 
-     */
-    public function render(): string
-    {
-        $myText = $this->getText() ?? 'vazio';
-        $myType = $this->getType() ?? 'error';
-        return message_type($myText, $myType);
-    }
-
-    /**
-     *  PT-BR # Mensagem de sucesso.
-     *  EN # Success Message.
      *  @param string $message
      *  @return Message
      */
@@ -94,6 +82,38 @@ class Message
         $this->type = CONF_MESSAGE_ERROR;
         $this->text = $this->filter($message);
         return $this;
+    }
+
+    /**
+     *  PT-BR # Mensagem de sucesso.
+     *  EN # Success Message.
+     *  @return 
+     */
+    public function render(): string
+    {
+        $myText = $this->getText() ?? 'vazio';
+        $myType = $this->getType() ?? 'error';
+        return message_type($myText, $myType);
+    }
+
+    /**
+     *  PT-BR # Retorna a mensagem em json.
+     *  EN # Returns the message in json.
+     *  @return string
+     */
+    public function json(): string
+    {
+        return json_encode(['error' => $this->getText()]);
+    }
+
+    /**
+     *  PT-BR # Seta o objeto message na sessão.
+     *  EN # Set the message object in the session.
+     *  @return void
+     */
+    public function flash(): void
+    {
+        (new Session())->set('flash', $this);        
     }
 
     /**
