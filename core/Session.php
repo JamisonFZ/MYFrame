@@ -43,13 +43,7 @@ class Session
      */
     public function __isset($name): bool
     {
-        $this->has($name);
-        if ($this->has($name))
-        {
-            return true;
-        }
-
-        return false;
+        return $this->has($name);
     }
 
     /**
@@ -134,5 +128,15 @@ class Session
         }
 
         return null;
+    }
+
+    /**
+     * PT-BR # Gera um novo token csrf para garantir a segurança pós requisição.
+     * EN # Generates a new csrf token to ensure post-request security.
+     * @return void
+     */
+    public function csrf(): void
+    {
+        $_SESSION['csrf_token'] = base64_encode(random_bytes(20));
     }
 }

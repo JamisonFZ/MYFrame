@@ -1,5 +1,57 @@
 <?php
 
+use app\models\user\User;
+use core\Connect;
+use core\Message;
+use core\Session;
+
+/**
+ * 
+ *  TEXTO / STRING 
+ * 
+ */
+
+
+/**
+ *  PT-BR # Retorna a instância do PDO.
+ *  EN # Return to DOP instance.
+ *  @return PDO
+ */
+function db(): PDO
+{
+    return Connect::load();
+}
+
+/**
+ *  PT-BR # Retorna a instância do Message.
+ *  EN # Return to Message instance.
+ *  @return Message
+ */
+function message()
+{
+    return new Message;
+}
+
+/**
+ *  PT-BR # Retorna a instância do Session.
+ *  EN # Return to Session instance.
+ *  @return Session
+ */
+function session()
+{
+    return new Session;
+}
+
+/**
+ *  PT-BR # Retorna a instância do User.
+ *  EN # Return to User instance.
+ *  @return User
+ */
+function user()
+{
+    return new User;
+}
+
 /**
  *  PT-BR # Retorna uma string com o limite definido.
  *  EN # Returns a string with the defined limit.
@@ -14,13 +66,158 @@ function truncate_string(string $string, int $characterNumber): string
 }
 
 /**
+ *  PT-BR # Retorna uma url completa com base na url base do config.
+ *  EN # Returns a full url based on the config base url.
+ *  @param string $pah
+ *  @return string
+ */
+function url(string $path): string
+{
+    return CONF_URL_BASE . '/' . ($path[0] == '/' ? mb_substr($path, 1) : $path);
+}
+
+/**
+ *  PT-BR # Verifica o tipo e url e redireciona.
+ *  EN # Check type and url and redirect.
+ *  @param string $url
+ *  @return void
+ */
+function redirect_url(string $url): void
+{
+    header('HTTP/1.1 302 Redirect');
+    if (filter_var($url, FILTER_VALIDATE_URL))
+    {
+        header("Location: {$url}");
+        exit;
+    }
+
+    $location = url($url);
+    header("Location: {$location}");
+    exit;
+}
+
+
+/**
+ * 
+ *  E-MAIL / EMAIL
+ * 
+ */
+
+
+/**
+ *  PT-BR # Verifica se o e-mail é válido.
+ *  EN # Checks if the email is valid.
+ *  @param string $email
+ *  @return bool
+ */
+function is_email(string $email): bool
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+
+/**
+ * 
+ *  SENHA / PASSWORD
+ * 
+ */
+
+
+/**
+ *  PT-BR # Verifica se a senha está no tamanho permitido pelo sistema.
+ *  EN # Checks whether the password is the length allowed by the system.
+ *  @param string $password
+ *  @return bool
+ */
+function is_passwd(string $password): bool
+{
+    return (mb_strlen($password) >= CONF_PASSWD_MIN_LEN && mb_strlen($password) <= CONF_PASSWD_MAX_LEN) ? TRUE : FALSE;
+}
+
+/**
+ *  PT-BR # Retorna uma senha protegido com hash.
+ *  EN # Returns a hashed password.
+ *  @param string $password
+ *  @return string
+ */
+function passwd(string $password): string
+{
+    return password_hash($password, CONF_PASSWD_ALGO, CONF_PASSWD_OPTION);
+}
+
+/**
+ *  PT-BR # Verifca o hash de uma senha.
+ *  EN # Checks the hash of a password.
+ *  @param string $password
+ *  @param string $hash
+ *  @return bool
+ */
+function passwd_verify(string $password, string $hash): bool
+{
+    return password_verify($password, $hash);
+}
+
+/**
+ *  PT-BR # Verifca o hash de uma senha.
+ *  EN # Checks the hash of a password.
+ *  @param string $hash
+ *  @return bool
+ */
+function passwd_rehash(string $hash): bool
+{
+    return password_needs_rehash($hash, CONF_PASSWD_ALGO, CONF_PASSWD_OPTION);
+}
+
+/**
+ * 
+ *  VALIDAR / VALIDATE
+ * 
+ */
+
+
+ /**
+ *  PT-BR # Criar um novo campo de input já adicionando um token csrf.
+ *  EN # Create a new input field by adding a csrf token.
+ *  @return string
+ */
+ function csrf_input(): string
+ {
+    session()->csrf();
+    return "<input type='hidden' name='csrf' value='". (session()->csrf_token ?? "") ."'/>";
+ }
+
+ /**
+ *  PT-BR # Verifica se o token foi passado via input e si é o mesmo da requisição.
+ *  EN # Checks whether the token was passed via input and whether it is the same as the request.
+ *  @param string $request
+ *  @return bool
+ */
+ function csrf_verify($request): bool
+ {
+    if(empty(session()->csrf_token) or empty($request['csrf']) or $request['csrf'] != session()->csrf_token)
+    {
+        return false;
+    }
+
+    return true;
+ }
+
+
+/**
+ * 
+ *  MENSAGEM / MESSAGE 
+ * 
+ */
+
+
+/**
  *  PT-BR # Retorna uma string com o corpo da mensagem com base no tipo.
  *  EN # Returns a string with the message body based on type.
  *  @param string $message
  *  @param string $type
- *  @return string|bool
+ *  @return string
  */
-function message_type($message, $type): string|bool
+function message_type($message, $type): string
 {
     switch ($type) {
         case 'success':
