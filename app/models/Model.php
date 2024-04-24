@@ -3,6 +3,7 @@
 namespace app\models;
 
 use core\Connect;
+use core\Message;
 
 abstract class Model
 {   
@@ -12,11 +13,20 @@ abstract class Model
     /** @var \PDOException|null */
     protected $fail;
 
-    /** @var string|null */
+    /** @var Message|null */
     protected $message;
 
     protected static $safe;
 
+    protected static $required;
+
+    /**
+     *  Construtor Model
+     */
+    public function __construct()
+    {
+        $this->message = new Message;
+    }
 
     /**
      *  PT-BR # Interceptar valores e atribuir ao data do model.
@@ -72,9 +82,9 @@ abstract class Model
     /**
      *  PT-BR # Retorno de mensagens.
      *  EN # Message return.
-     *  @return string|null
+     *  @return Message|null
      */
-    public function message(): string|null
+    public function message(): Message|null
     {
         return $this->message;
     }
@@ -151,10 +161,10 @@ abstract class Model
      *  @param string $entity
      *  @param int $id
      *  @param array $data
-     *  @param array $params
+     *  @param array|string $params
      *  @return int|null
      */
-    protected function update(string $entity, int $id, array $data, array $params): int|null
+    protected function update(string $entity, array $data, int $id, array|string $params): int|null
     {
         try {
 
@@ -236,5 +246,23 @@ abstract class Model
         }
 
         return $filter;
+    }
+
+     /**
+     *  PT-BR # Verifica campos obrigatórios do banco.
+     *  EN # Check required bank fields.
+     *  @return bool
+     */
+    public function required(): bool
+    {
+        $data = (array)$this->data();
+
+        foreach (static::$required as $field) {
+            if (empty($data[$field])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

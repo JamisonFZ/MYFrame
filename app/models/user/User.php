@@ -7,11 +7,14 @@ use app\models\Model;
 class User extends Model
 {
 
-    /** @var array $safe sem atualizar ou criar */
+    /** @var array $safe Sem atualizar ou criar */
     protected static $safe = ['id', 'created_at', 'updated_at'];
 
-    /** @var string $entity tabela de banco de dados */
+    /** @var string $entity Tabela de banco de dados */
     protected static $entity = 'users';
+
+    /** @var array $required Campos do banco de dados obrigatórios */
+    protected static $required = ["first_name", "last_name", "email", "password"];
 
     /**
      *  PT-BR # Recebe valores padrões necessarios para criar um usuário.
@@ -19,16 +22,42 @@ class User extends Model
      *  @param string $firstName
      *  @param string $lastName
      *  @param string $email
+     *  @param string $password
      *  @param string $document
      *  @return User|null
      */
-    public function bootstrap(string $firstName, string $lastName, string $email, string $document): User|null
+    public function bootstrap(
+        string $firstName, 
+        string $lastName, 
+        string $email,
+        string $password, 
+        string $document): User|null
     {  
         $this->first_name = $firstName;
         $this->last_name = $lastName;
         $this->email = $email;
+        $this->password = $password;
         $this->document = $document;
         return $this;
+    }
+
+    /**
+     *  PT-BR # Busca simples no banco de dados.
+     *  EN # Simple database search.
+     *  @param string $terms
+     *  @param string $params
+     *  @param string $columns
+     *  @return User|null
+     */
+    public function find(string $terms, string $params, string $columns = "*"): User|null
+    {
+        $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE {$terms}", $params);
+        
+        if ($this->fail() || ! $find->rowCount()) {
+            return null;
+        }
+
+        return $find->fetchObject(__CLASS__);
     }
 
     /**
@@ -38,18 +67,9 @@ class User extends Model
      *  @param string $columns
      *  @return null|User
      */
-    public function load(int $id, string $columns = '*'): User|null
+    public function findById(int $id, string $columns = '*'): User|null
     {
-        $load = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE id = :id", "id={$id}");
-        
-        
-        if ($this->fail() || ! $load->rowCount()) {
-            
-            $this->message = 'Usuário não encontrado com base no ID informado!';
-            return null;
-        }
-
-        return $load->fetchObject(__CLASS__);
+        return $this->find("id = :id", "id={$id}", $columns);
     }
 
     /**
@@ -59,17 +79,9 @@ class User extends Model
      *  @param string $columns
      *  @return null|User
      */
-    public function find(string $email, string $columns = '*'): User|null
+    public function findByEmail(string $email, string $columns = '*'): User|null
     {
-        $find = $this->read("SELECT {$columns} FROM " . self::$entity . " WHERE email = :email", "email={$email}");
-        
-        if ($this->fail() || ! $find->rowCount()) {
-
-            $this->message = 'Usuário não encontrado com base no email informado!';
-            return null;
-        }
-
-        return $find->fetchObject(__CLASS__);
+       return $this->find("email = :email", "email={$email}, $columns");
     }
 
     /**
@@ -85,8 +97,6 @@ class User extends Model
         $all = $this->read("SELECT {$columns} FROM " . self::$entity . " LIMIT :l OFFSET :o", "l={$limit}&o={$offset}");
         
         if ($this->fail() || ! $all->rowCount()) {
-
-            $this->message = 'Nenhum usuário encontrado com base na sua consulta!';
             return null;
         }
 
@@ -102,15 +112,14 @@ class User extends Model
      */
     public function modify(string $email, array $params): User|null
     {
-
-        $findUser = $this->find($email);
+        $findUser = $this->findByEmail($email);
 
         if ($this->fail() || $findUser == null) {
             $this->message = 'Nenhum usuário com o e-mail informado encontrado!';
             return null;
         }
 
-        $update = $this->update($this::$entity, $findUser->id, $findUser->safe(), $params);
+        $update = $this->update($this::$entity, $findUser->safe(), $findUser->id, $params);
         $this->message = 'Usuário atualizado com sucesso';
         return $this;
     }
@@ -124,30 +133,59 @@ class User extends Model
     {
 
         if (! $this->required()) {
+            $this->message->warning("Nome, sobrenome, email e senha são obrigatórios");
             return null;
+        }
+
+        if (!is_email($this->email)) {
+            $this->message->warning("O e-mail informado não tem um formato válido");
+            return null;
+        }
+
+        if (!is_passwd($this->password)) {
+            $min = CONF_PASSWD_MIN_LEN;
+            $max = CONF_PASSWD_MAX_LEN;
+            $this->message->warning("A senha deve ter entre {$min} e {$max} caracteres");
+            return null;
+            
+        } else {
+            $this->password = passwd($this->password);
         }
 
         /** Atualizando um usuário existente */
         if (empty($this->id)) {
             $userId = $this->id;
+
+            if ($this->find("email = :e AND id != :i", "e={$this->email}&i={$userId}"))
+            {
+                $this->message->warning("O e-mail informado já está cadastrado");
+                return null;
+            }
+
+            $this->update(self::$entity, $this->safe(), "id = :id", "id={$userId}");
+
+            if ($this->fail()) {
+                $this->message->error("Erro ao atualizar, verifique os dados");
+                return null;
+            }
         }
 
         /** Criando um novo usuário */
         if (empty($this->id)) {
-            if ($this->find($this->email)) {
-                $this->message = "O e-mail informado já está cadastrado!";
+            if ($this->findByEmail($this->email)) {
+                $this->message->warning("O e-mail informado já está cadastrado!");
                 return null;
             }
 
             $userId = $this->create(self::$entity, $this->safe());
-            if ($this->fail()) {
-                $this->message = "Erro ao cadastrar, verifique os dados!";
-            }
 
-            $this->message = "Cadastro realizado com sucesso!";
+            if ($this->fail()) {
+                $this->message->error("Erro ao cadastrar, verifique os dados!");
+                return null;
+            }
         }
 
-        $this->data = $this->read("SELECT * FROM ". self::$entity . " WHERE id = :id", "id={$userId}")->fetch();
+        $this->data = ($this->findById($userId))->data();
         return $this;
     }
 
@@ -171,25 +209,4 @@ class User extends Model
         $this->data = null;
         return $this;
     }
-
-    /**
-     *  PT-BR # Verifica campos obrigatórios e valida o e-mail.
-     *  EN # Checks mandatory fields and validates the email.
-     *  @return bool
-     */
-    public function required(): bool
-    {
-        if (empty($this->first_name) ||  empty($this->last_name) || empty($this->email)) {
-            $this->message = "Nome, sobrenome e e-mail são obrigatórios";               
-            return false;
-        }
-
-        if (! filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $this->message = "O e-mail informado não parece válido";
-            return false;
-        }
-
-        return true;
-    }
-
 }
