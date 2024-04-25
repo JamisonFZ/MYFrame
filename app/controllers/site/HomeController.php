@@ -3,15 +3,14 @@
 namespace app\controllers\site;
 
 use app\controllers\ContainerController;
+use core\Email;
 
 class HomeController extends ContainerController
 {
 
     public function index()
     {
-        $this->view([
-
-        ], 'site.home');
+        $this->view([], 'site.home');
     }
 
     public function show()

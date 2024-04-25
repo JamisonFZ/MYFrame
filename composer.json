@@ -1,6 +1,5 @@
 {
-    "autoload":
-    {
+    "autoload": {
         "psr-4":
         {
             "app\\" : "app",
@@ -10,9 +9,12 @@
             "config.php"
         ]
     },
+
     "require": {
-        "twig/twig": "^3.8"
+        "twig/twig": "^3.8",
+        "phpmailer/phpmailer": "^6.9"
     },
+
     "require-dev": {
         "symfony/var-dumper": "^7.0"
     }
