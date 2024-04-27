@@ -63,6 +63,19 @@ class Email
     }
 
     /**
+     *  PT-BR # Envio de arquivo junto ao e-mail.
+     *  EN # Sending file by email.
+     *  @param string $filePath
+     *  @param string $fileName
+     *  @return Email
+     */
+    public function attach(string $filePath, string $fileName): Email
+    {
+        $this->data->attach[$filePath] = $fileName;
+        return $this;
+    }
+
+    /**
      *  PT-BR # Envio do e-mail após a execução do boostrap.
      *  EN # Sending the email after running bootstrap.
      *  @param string $fromEmail
@@ -92,6 +105,12 @@ class Email
             $this->mail->msgHTML($this->data->message);
             $this->mail->addAddress($this->data->toEmail, $this->data->toName);
             $this->mail->setFrom($fromEmail, $fromName);
+
+            if (! empty($this->data->attach)) {
+                foreach ($this->data->attach as $path => $name) {
+                    $this->mail->addAttachment($path, $name);
+                }
+            }
 
             $this->mail->send();
             return true;

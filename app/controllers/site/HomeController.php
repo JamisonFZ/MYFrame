@@ -3,7 +3,6 @@
 namespace app\controllers\site;
 
 use app\controllers\ContainerController;
-use core\Email;
 
 class HomeController extends ContainerController
 {
