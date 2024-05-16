@@ -13,6 +13,7 @@
  * EN # Priorities.
  */
 define("CONF_URL_BASE", "localhost:8888"); // !
+define("CONF_DEFAULT_LANG", "pt_BR"); // *
 
 
 /**
@@ -95,3 +96,9 @@ define("CONF_URL_ERROR", CONF_URL_BASE . "/error"); // #
  define("CONF_MESSAGE_INFO", "info"); // #
  define("CONF_MESSAGE_WARNING", "warning"); // #
  define("CONF_MESSAGE_ERROR", "error"); // #
+
+  /**
+  *  PT-BR # Sistema
+  *  EN # System
+  */
+  define("CONF_DEFAULT_PATH", __DIR__);

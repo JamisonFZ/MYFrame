@@ -12,7 +12,8 @@
 
     "require": {
         "twig/twig": "^3.8",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "diversen/simple-php-translation": "^3.1"
     },
 
     "require-dev": {
